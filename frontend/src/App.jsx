@@ -14,10 +14,8 @@ function App() {
   const { isBootstrapped } = useSelector((state) => state.auth);
 
 useEffect(() => {
-  if (!isBootstrapped) {
     dispatch(getUser());
-  }
-}, [dispatch, isBootstrapped]);
+}, [dispatch]);
 
   if (!isBootstrapped) {
     return <Loader message="Loading authentication..." />;
