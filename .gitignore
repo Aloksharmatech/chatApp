@@ -1,0 +1,22 @@
+# Ignore node_modules in both frontend and backend
+/backend/node_modules
+/frontend/node_modules
+
+# Ignore logs
+*.log
+
+# Ignore environment files
+*.env
+
+# Ignore build folders
+/frontend/dist
+/backend/dist
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore all Docker-related files
+**/Dockerfile
+**/docker-compose.yml
+**/*.dockerignore

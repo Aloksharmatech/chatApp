@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+
+/* Keep background same, make autofill text & cursor white */
+input:-webkit-autofill {
+  -webkit-text-fill-color: #fff;
+  caret-color: #fff; /* white cursor */
+  transition: background-color 5000s ease-in-out 0s; /* prevents flash */
+}
+
+input:-webkit-autofill::first-line {
+  font-family: inherit;
+  color: #fff;
+}
