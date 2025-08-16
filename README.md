@@ -1,7 +1,5 @@
 ---
 
-README.md for chatApp
-
 # chatApp
 
 A lightweight real-time chat application built with a **frontend** and **backend** architecture. It enables seamless two-way communication between users, combining modern UI with efficient backend APIs.
