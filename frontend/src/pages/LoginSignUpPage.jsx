@@ -56,11 +56,9 @@ const LoginSignUpPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(isLogin ? "Login Data:" : "Signup Data:", formData);
 
     if (isLogin) {
       if (!formData.email || !formData.password) {
-        console.log("Both email and password required");
         return;
       }
       dispatch(login(formData));
@@ -72,7 +70,6 @@ const LoginSignUpPage = () => {
           !formData.password ||
           !formData.confirmPassword
         ) {
-          console.log("Every field is required...");
           return;
         }
 
@@ -80,7 +77,6 @@ const LoginSignUpPage = () => {
         setOtpSend(true);
       } else {
         if (!formData.otp) {
-          console.log("OTP is required");
           return;
         }
         dispatch(verify({ email: formData.email, otp: formData.otp }));
