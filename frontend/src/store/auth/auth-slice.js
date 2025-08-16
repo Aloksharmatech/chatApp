@@ -42,7 +42,7 @@ export const login = createAsyncThunk(
       return result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to login"
+        error.response?.data?.message || "Failed to Login"
       );
     }
   }
@@ -54,7 +54,7 @@ export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     return result.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(
-      error.response?.data?.message || "Failed to logout"
+      error.response?.data?.message || "Failed to LogOut"
     );
   }
 });
@@ -90,7 +90,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Register
+      // register user
       .addCase(register.pending, (state) => {
         state.isLoading = true;
       })
@@ -102,7 +102,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
-      // Verify
+      // verify user
       .addCase(verify.pending, (state) => {
         state.isLoading = true;
         state.message = null;
@@ -116,7 +116,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
-      // Login
+      // login user
       .addCase(login.pending, (state) => {
         state.isLoading = true;
         state.message = null;
@@ -132,7 +132,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
-      // Logout
+      // logout user
       .addCase(logOut.pending, (state) => {
         state.isLoading = true;
         state.message = null;
@@ -148,22 +148,23 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
-      // Get User (Bootstrap)
+      // getUser thunk (bootstrap on app start)
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.isBootstrapped = true; // ✅ finish bootstrap
+        state.isBootstrapped = true;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = false;
         state.user = null;
+        state.isBootstrapped = true;
         state.error = action.payload || action.error.message;
-        state.isBootstrapped = true; // ✅ finish bootstrap even on fail
       });
   },
 });
