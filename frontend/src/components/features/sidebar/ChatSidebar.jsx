@@ -14,38 +14,42 @@ export default function ChatSidebar({ className = "" }) {
   const startX = useRef(0);
   const startWidth = useRef(0);
 
-  // Local state to manage conversations for real-time updates
-  const [chats, setChats] = useState([]);
-
-  // 🔹 Fetch conversations from backend
-  const { data: conversations = [], isLoading, isError } = useQuery({
+   // 🔹 Fetch conversations from backend
+  const {
+    data: conversations = [],
+    isLoading,
+    isError,
+    refetch, // 🔹 get refetch function
+  } = useQuery({
     queryKey: ["userConversations"],
     queryFn: async () => {
       const res = await API.get("message/");
       return res.data.data;
     },
+    enabled: false, // 🔹 don't auto-fetch on mount
   });
 
-  // Sync initial fetch to local state
+  // 🔹 Fetch initially on mount
   useEffect(() => {
-    setChats(conversations);
-  }, [conversations]);
+    refetch();
+  }, [refetch]);
 
-  // 🔹 Listen for new conversations via socket
+  // 🔹 Listen for new conversations via socket and refetch
   useEffect(() => {
     if (!socket) return;
 
-    const handleNewConversation = ({ conversation, message }) => {
-      setChats((prev) => [conversation, ...prev]); // Add new conversation to top
+    const handleNewConversation = () => {
+      refetch(); // 🔹 refetch data from server
     };
 
-    socket.on("newConversation", handleNewConversation);
+    socket.on("receiveMessage", handleNewConversation);
 
     return () => {
-      socket.off("newConversation", handleNewConversation);
+      socket.off("receiveMessage", handleNewConversation);
     };
-  }, [socket]);
+  }, [socket, refetch]);
 
+  
   function handleMouseDown(e) {
     startX.current = e.clientX;
     startWidth.current = width;
@@ -94,7 +98,7 @@ export default function ChatSidebar({ className = "" }) {
       ) : isError ? (
         <p className="p-4 text-red-500">Failed to load chats</p>
       ) : (
-        <ChatList chats={chats} /> 
+        <ChatList chats={conversations} /> 
       )}
 
       {/* Resize handle */}
