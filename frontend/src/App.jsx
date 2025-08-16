@@ -13,48 +13,34 @@ function App() {
   const dispatch = useDispatch();
   const { isBootstrapped } = useSelector((state) => state.auth);
 
-useEffect(() => {
+  useEffect(() => {
     dispatch(getUser());
-}, [dispatch]);
+  }, [dispatch]);
 
   if (!isBootstrapped) {
     return <Loader message="Loading authentication..." />;
   }
 
   return (
-    <>
-      <Routes>
-        <Route path="/login" element={<LoginSignUpPage />} />
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/login" element={<LoginSignUpPage />} />
+      <Route path="/" element={<LoginSignUpPage />} />
 
-        <Route path="/" element={<LoginSignUpPage />} />
-        <Route
-          path="/home"
-          element={
-            <PrivateRoutes>
-              <HomePage />
-            </PrivateRoutes>
-          }
-        >
-          <Route
-            index
-            element={
-              <PrivateRoutes>
-                <ChatSidebar className="shrink-0" />
-              </PrivateRoutes>
-            }
-          />
-          <Route
-            path="search"
-            element={
-              <PrivateRoutes>
-                <Search />
-              </PrivateRoutes>
-            }
-          />
-        </Route>
-        <Route path="*" element={<LoginSignUpPage />} />
-      </Routes>
-    </>
+      {/* Private Routes */}
+      <Route
+        path="/home"
+        element={
+          <PrivateRoutes>
+            <HomePage />
+          </PrivateRoutes>
+        }
+      >
+        {/* Nested Routes */}
+        <Route index element={<ChatSidebar className="shrink-0" />} />
+        <Route path="search" element={<Search />} />
+      </Route>
+    </Routes>
   );
 }
 
