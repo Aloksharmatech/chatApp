@@ -52,6 +52,7 @@ useEffect(() => {
             }
           />
         </Route>
+        <Route path="*" element={<LoginSignUpPage />} />
       </Routes>
     </>
   );
