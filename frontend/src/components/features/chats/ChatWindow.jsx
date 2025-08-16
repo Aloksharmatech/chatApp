@@ -42,7 +42,6 @@ export default function ChatWindow({ chat }) {
     socket.emit("joinConversation", conversationId);
 
     const handleReceive = (newMessage) => {
-      console.log("new message", newMessage);
       setMessages((prev) => [...prev, newMessage]);
     };
 
@@ -76,7 +75,6 @@ export default function ChatWindow({ chat }) {
     }
   }
 
-  console.log("messagess", messages);
 
   if (!chat) {
     return (
