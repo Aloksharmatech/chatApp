@@ -1,0 +1,5 @@
+# render.yaml
+routes:
+  - type: rewrite
+    source: /*
+    destination: /index.html
