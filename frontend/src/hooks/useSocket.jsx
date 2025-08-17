@@ -10,7 +10,7 @@ export default function useSocket() {
 
   useEffect(() => {
     if (user) {
-      const s = io("https://chat-backend-2b7d.onrender.com", {
+      const s = io("https://chatapp-backend-1s9x.onrender.com", {
         withCredentials: true,
         query: { userId: user.id },
       });
