@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import SearchBar from "../sidebar/SearchBar";
 import API from "../../../api/axios";
 import { useQuery } from "@tanstack/react-query";
-import { useOutletContext } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setChats } from "../../../store/chatselected/chat-slice";
 
 export default function Search({ className = "" }) {
   const [isDraggable, setIsDraggable] = useState(false);
@@ -11,7 +12,7 @@ export default function Search({ className = "" }) {
   const startX = useRef(0);
   const startWidth = useRef(0);
 
-  const { setSelectedChat } = useOutletContext();
+  const dispatch = useDispatch();
 
   const {
     data: users = [],
@@ -82,23 +83,28 @@ export default function Search({ className = "" }) {
       style={{ width: `${width}px` }}
       className={`flex flex-col h-screen bg-white/90 border-r border-gray-200 relative shrink-0 ${className}`}
     >
+      {/* Header */}
+      <div className="flex justify-center items-center p-4 text-lg font-semibold border-b border-gray-200 bg-gray-50">
+        <h1>Find Friends</h1>
+      </div>
+
       {/* Search Input */}
       <SearchBar value={query} onChange={(e) => setQuery(e.target.value)} />
 
       {/* User List */}
       {isLoading ? (
-        <p className="p-4 text-gray-500">Searching users...</p>
+        <p className="p-4 text-gray-500 text-center">Searching users...</p>
       ) : isError ? (
-        <p className="p-4 text-red-500">Failed to load users</p>
+        <p className="p-4 text-red-500 text-center">Failed to load users</p>
       ) : users.length === 0 ? (
-        <p className="p-4 text-gray-500">No users found</p>
+        <p className="p-4 text-gray-500 text-center">Search Users</p>
       ) : (
         <div className="flex-1 overflow-y-auto">
           {users.map((user) => (
             <div
               key={user._id}
               className="flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-100"
-              onClick={() => setSelectedChat(user)}
+              onClick={() => dispatch(setChats(user))}
             >
               <img
                 src={user.profilePicture || "https://i.pravatar.cc/150?img=12"}

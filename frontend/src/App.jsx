@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import LoginSignUpPage from "./pages/LoginSignUpPage";
 import HomePage from "./pages/HomePage";
 import PrivateRoutes from "./routes/PrivateRoutes";
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "./components/common/Loader";
 import ChatSidebar from "./components/features/sidebar/ChatSidebar";
 import Search from "./components/features/search/Search";
+import Settings from "./components/common/Settings";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,7 +27,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginSignUpPage />} />
 
-        <Route path="/" element={<LoginSignUpPage />} />
         <Route
           path="/home"
           element={
@@ -35,23 +35,12 @@ function App() {
             </PrivateRoutes>
           }
         >
-          <Route
-            index
-            element={
-              <PrivateRoutes>
-                <ChatSidebar className="shrink-0" />
-              </PrivateRoutes>
-            }
-          />
-          <Route
-            path="search"
-            element={
-              <PrivateRoutes>
-                <Search />
-              </PrivateRoutes>
-            }
-          />
+          <Route index element={<ChatSidebar className="shrink-0" />} />
+          <Route path="search" element={<Search />} />  
+          <Route path="settings" element={<Settings />} />  
         </Route>
+
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </>
   );

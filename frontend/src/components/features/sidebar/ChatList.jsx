@@ -1,22 +1,24 @@
 import React from "react";
-import { useOutletContext } from "react-router-dom";
-// import { useSelector } from "react-redux";
+// import { useOutletContext } from "react-router-dom";
+import { setChats } from "../../../store/chatselected/chat-slice";
+import { useDispatch } from "react-redux";
 
-const DEFAULT_AVATAR = "https://i.pravatar.cc/150?img=12";
+const DEFAULT_AVATAR =  "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
 export default function ChatList({ chats }) {
-  const { setSelectedChat } = useOutletContext();
+
+  const dispatch = useDispatch();
 
   return (
     <div className="flex-1 overflow-auto">
       <ul className="divide-y divide-gray-100">
         {chats.map((chat) => {
-          const otherUser = chat.participant; 
+          const otherUser = chat.participant;
 
           return (
             <li
               key={chat.conversationId}
-              onClick={() => setSelectedChat(chat)}
+              onClick={() => dispatch(setChats(chat))}
               className="flex items-center gap-3 px-3 py-3 cursor-pointer hover:bg-gray-50"
               title={otherUser?.username || "Unknown"}
             >
@@ -33,7 +35,9 @@ export default function ChatList({ chats }) {
                   </h4>
                   <span className="text-xs text-gray-400 ml-2">
                     {chat.lastMessage?.createdAt
-                      ? new Date(chat.lastMessage.createdAt).toLocaleTimeString()
+                      ? new Date(
+                          chat.lastMessage.createdAt
+                        ).toLocaleTimeString()
                       : ""}
                   </span>
                 </div>

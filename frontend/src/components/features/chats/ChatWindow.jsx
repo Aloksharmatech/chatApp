@@ -5,16 +5,18 @@ import ChatHeader from "./ChatHeader";
 import { useQuery } from "@tanstack/react-query";
 import API from "../../../api/axios";
 import useSocket from "../../../hooks/useSocket";
+import { useSelector } from "react-redux";
 
-export default function ChatWindow({ chat }) {
+export default function ChatWindow() {
   const socket = useSocket();
+
+  const { chats: chat } = useSelector((state) => state.account);
 
   const [messages, setMessages] = useState([]);
   const [conversationId, setConversationId] = useState(
     chat?.conversationId || null
   );
   const [receiverId, setReceiverId] = useState(chat?._id || null);
-
 
   useEffect(() => {
     setConversationId(chat?.conversationId || null);
@@ -72,7 +74,6 @@ export default function ChatWindow({ chat }) {
     } else {
       // Existing conversation
       res = await API.post(`message/${conversationId}`, { message: text });
-      // setMessages((prev) => [...prev, res.data]);
     }
   }
 
@@ -91,7 +92,7 @@ export default function ChatWindow({ chat }) {
 
   return (
     <div className="flex flex-col h-screen flex-1">
-      <ChatHeader chat={chat} />
+      <ChatHeader />
 
       <div className="flex-1 overflow-y-auto">
         {isLoading ? (

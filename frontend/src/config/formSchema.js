@@ -1,5 +1,5 @@
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
-import { FiMessageCircle, FiSearch } from "react-icons/fi";
+import { FiMessageCircle, FiSearch ,FiSettings } from "react-icons/fi";
 import { MdSecurity } from "react-icons/md";
 
 export const signUpFields = [
@@ -58,6 +58,7 @@ export const signInFields = [
 ];
 
 export const navItems = [
-  { name: "Chat", icon: FiMessageCircle, path: "/home" },
-  { name: "Search", icon: FiSearch, path: "/home/search" },
+  { name: "Chat", icon: FiMessageCircle, path: "/home", position: "top" },
+  { name: "Search", icon: FiSearch, path: "/home/search", position: "top" },
+  { name: "Settings", icon: FiSettings, path: "/home/settings", position: "bottom" },
 ];

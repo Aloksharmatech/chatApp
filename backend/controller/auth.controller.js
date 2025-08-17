@@ -154,8 +154,9 @@ const loginUser = async (req, res) => {
 
     return res
       .cookie("token", token, {
+        secure: process.env.NODE_ENV === "production",
         httpOnly: true,
-        sameSite: "Strict",
+        sameSite: "None",
         maxAge: 1 * 24 * 60 * 60 * 1000,
       })
       .status(200)
@@ -166,7 +167,8 @@ const loginUser = async (req, res) => {
           id: user._id,
           username: user.username,
           email: user.email,
-          profilePicture: user.profilePicture
+          profilePicture: user.profilePicture,
+          bio: user.bio,
         },
       });
   } catch (error) {
@@ -181,8 +183,9 @@ const loginUser = async (req, res) => {
 const logOutUser = async (req, res) => {
   try {
     res.clearCookie("token", {
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: "Strict",
+      sameSite: "None",
     });
 
     return res.status(200).json({
@@ -291,7 +294,7 @@ const getCurrentUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "User not found"
+        message: "User not found",
       });
     }
 
@@ -301,19 +304,18 @@ const getCurrentUser = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        profilePicture: user.profilePicture
-      }
+        profilePicture: user.profilePicture,
+        bio: user.bio,
+      },
     });
   } catch (error) {
     console.error("Error fetching user:", error);
     res.status(500).json({
       success: false,
-      message: "Failed to fetch user"
+      message: "Failed to fetch user",
     });
   }
 };
-
-
 
 module.exports = {
   registerUser,
@@ -322,5 +324,5 @@ module.exports = {
   logOutUser,
   forgotPassword,
   resetPassword,
-  getCurrentUser
+  getCurrentUser,
 };

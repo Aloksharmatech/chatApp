@@ -45,7 +45,7 @@ const Sidebar = () => {
   useEffect(() => {
     let timeout;
     if (isExpanded) {
-      timeout = setTimeout(() => setShowLabels(true), 100); // delay text by 100ms
+      timeout = setTimeout(() => setShowLabels(true), 100);
     } else {
       setShowLabels(false);
     }
@@ -69,44 +69,55 @@ const Sidebar = () => {
         </button>
 
         <div>
-          {navItems.map((item, index) => (
+          {navItems
+            .filter((item) => item.position === "top")
+            .map((item, index) => (
+              <Link key={index} to={item.path}>
+                <div className="flex items-center space-x-4 cursor-pointer hover:bg-[#1f3e53] p-2 rounded-lg transition">
+                  <span className="text-2xl">{<item.icon />}</span>
+                  {showLabels && (
+                    <span className="text-md transition-opacity duration-300">
+                      {item.name}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            ))}
+        </div>
+      </div>
+
+      {/* Bottom Section (Settings + Logout) */}
+      <div className="flex flex-col space-y-2">
+        {/* Settings from navItems */}
+        {navItems
+          .filter((item) => item.position === "bottom")
+          .map((item, index) => (
             <Link key={index} to={item.path}>
-              <div
-                className="flex items-center space-x-4 cursor-pointer hover:bg-[#1f3e53] p-2 rounded-lg transition"
-              >
+              <div className="flex items-center space-x-4 cursor-pointer hover:bg-[#1f3e53] p-2 rounded-lg transition">
                 <span className="text-2xl">{<item.icon />}</span>
                 {showLabels && (
-                  <span
-                    className={`text-md transition-opacity duration-300 ${
-                      showLabels ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
+                  <span className="text-md transition-opacity duration-300">
                     {item.name}
                   </span>
                 )}
               </div>
             </Link>
           ))}
-        </div>
-      </div>
 
-      {/* Bottom Section (Logout) */}
-      <div
-        onClick={handleLogout}
-        className="flex items-center space-x-4 cursor-pointer hover:bg-[#1f3e53] p-2 rounded-lg transition"
-      >
-        <span className="text-2xl">
-          <FiLogOut />
-        </span>
-        {showLabels && (
-          <span
-            className={`text-md transition-opacity duration-300 ${
-              showLabels ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            Logout
+        {/* Logout */}
+        <div
+          onClick={handleLogout}
+          className="flex items-center space-x-4 cursor-pointer hover:bg-[#1f3e53] p-2 rounded-lg transition"
+        >
+          <span className="text-2xl">
+            <FiLogOut />
           </span>
-        )}
+          {showLabels && (
+            <span className="text-md transition-opacity duration-300">
+              Logout
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
