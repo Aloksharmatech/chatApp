@@ -4,6 +4,7 @@ import { navItems } from "../../config/formSchema";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { logOut } from "../../store/auth/auth-slice";
+import {clearChat } from "../../store/chatselected/chat-slice"
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -18,6 +19,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     dispatch(logOut());
+    dispatch(clearChat());
     navigate("/login");
   };
 

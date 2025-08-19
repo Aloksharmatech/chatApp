@@ -1,12 +1,12 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { setOnlineUsers } from "../store/onlineUsers/online-slice";
 
 export default function useSocket() {
   const { user } = useSelector((state) => state.auth);
   const [socket, setSocket] = useState(null);
-
-  console.log("user id",user.id);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (user) {
@@ -16,9 +16,17 @@ export default function useSocket() {
       });
       setSocket(s);
 
-      return () => s.disconnect();
+      // Now backend sends { users, lastSeen }
+      s.on("onlineUsers", (data) => {
+        console.log("Online users update:", data);
+        dispatch(setOnlineUsers(data));
+      });
+
+      return () => {
+        s.disconnect();
+      };
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   return socket;
 }

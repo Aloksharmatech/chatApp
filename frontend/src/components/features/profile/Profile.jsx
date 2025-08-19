@@ -13,10 +13,10 @@ const Profile = () => {
   const [bio, setBio] = useState(user?.bio || "");
   const [profilePicture, setProfilePicture] = useState(null);
   const [preview, setPreview] = useState(
-    user?.profilePicture || "https://i.pravatar.cc/150?img=12"
+    user?.profilePicture || "https://cdn-icons-png.flaticon.com/512/149/149071.png"
   );
   const [isEditing, setIsEditing] = useState({ username: false, bio: false });
-  const [isSaving, setIsSaving] = useState(false); // loading state
+  const [isSaving, setIsSaving] = useState(false);
 
   const fileInputRef = useRef(null);
 

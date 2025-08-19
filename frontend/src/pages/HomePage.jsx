@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Sidebar from "../components/common/Sidebar";
 import { Outlet } from "react-router-dom";
 import ChatPage from "./ChatPage";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const { chats } = useSelector((state) => state.account);
+
 
   return (
     <div className="flex flex-row min-h-screen bg-white">

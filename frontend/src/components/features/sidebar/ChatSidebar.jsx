@@ -9,12 +9,11 @@ import useSocket from "../../../hooks/useSocket";
 export default function ChatSidebar({ className = "" }) {
   const socket = useSocket();
 
-
   const [isDraggable, setIsDraggable] = useState(false);
   const [width, setWidth] = useState(320);
+  const [searchTerm, setSearchTerm] = useState(""); // Search term
   const startX = useRef(0);
   const startWidth = useRef(0);
-
 
   const {
     data: conversations = [],
@@ -29,7 +28,6 @@ export default function ChatSidebar({ className = "" }) {
     },
     enabled: false, 
   });
-
 
   useEffect(() => {
     refetch();
@@ -85,20 +83,30 @@ export default function ChatSidebar({ className = "" }) {
     };
   }, [isDraggable]);
 
+  // Correct filter using chat.participant.username
+  const filteredConversations = conversations.filter((chat) => {
+    const otherUser = chat.participant;
+    const name = otherUser?.username || "";
+    return name.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
   return (
     <aside
       style={{ width: `${width}px` }}
       className={`flex flex-col h-screen bg-white/90 border-r border-gray-200 relative shrink-0 ${className}`}
     >
       <SidebarHeader />
-      <SearchBar />
+      <SearchBar
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
 
       {isLoading ? (
         <p className="p-4 text-gray-500">Loading chats...</p>
       ) : isError ? (
         <p className="p-4 text-red-500">Failed to load chats</p>
       ) : (
-        <ChatList chats={conversations} />
+        <ChatList chats={filteredConversations} searchTerm={searchTerm} />
       )}
 
       {/* Resize handle */}

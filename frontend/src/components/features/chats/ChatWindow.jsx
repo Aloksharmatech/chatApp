@@ -45,7 +45,9 @@ export default function ChatWindow() {
 
     const handleReceive = (newMessage) => {
       console.log("new message", newMessage);
-      setMessages((prev) => [...prev, newMessage]);
+      if (newMessage.conversationId === conversationId) {
+        setMessages((prev) => [...prev, newMessage]);
+      }
     };
 
     socket.on("receiveMessage", handleReceive);

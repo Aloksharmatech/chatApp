@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Profile from "../features/profile/Profile";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../../store/auth/auth-slice";
+import { clearChat } from "../../store/chatselected/chat-slice";
 
 export default function Settings() {
   const [isResizing, setIsResizing] = useState(false);
@@ -27,6 +28,7 @@ export default function Settings() {
 
   const handleLogout = () => {
     dispatch(logOut());
+    dispatch(clearChat());
     navigate("/login");
   };
 
