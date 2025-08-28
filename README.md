@@ -184,11 +184,6 @@ Open `http://localhost:5173` in your browser. The frontend talks to the backend 
 4. Open a Pull Request describing the changes.
 
 Please follow the existing code style (ESLint for frontend, standard Node style for backend) and include tests where applicable.
-
-## License
-
-This project is licensed under the MIT License – see the `LICENSE` file for details.
-
 --- 
 
 *Happy coding! 🎉*
